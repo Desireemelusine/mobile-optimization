@@ -1,16 +1,11 @@
-/*
-Welcome to the 60fps project! Your goal is to make Cam's Pizzeria website run
+/*Welcome to the 60fps project! Your goal is to make Cam's Pizzeria website run
 jank-free at 60 frames per second.
-
 There are two major issues in this code that lead to sub-60fps performance. Can
 you spot and fix both?
-
-
 Built into the code, you'll find a few instances of the User Timing API
 (window.performance), which will be console.log()ing frame rate data into the
 browser console. To learn more about User Timing API, check out:
 http://www.html5rocks.com/en/tutorials/webperformance/usertiming/
-
 Creator:
 Cameron Pittman, Udacity Course Developer
 cameron *at* udacity *dot* com
@@ -406,13 +401,13 @@ var resizePizzas = function(size) {
   function changeSliderLabel(size) {
     switch(size) {
       case "1":
-        document.getElementById("pizzaSize").innerHTML = "Small";
+        document.querySelector("#pizzaSize").innerHTML = "Small";
         return;
       case "2":
-        document.getElementById("pizzaSize").innerHTML = "Medium";
+        document.querySelector("#pizzaSize").innerHTML = "Medium";
         return;
       case "3":
-        document.getElementById("pizzaSize").innerHTML = "Large";
+        document.querySelector("#pizzaSize").innerHTML = "Large";
         return;
       default:
         console.log("bug in changeSliderLabel");
@@ -421,6 +416,8 @@ var resizePizzas = function(size) {
 
   changeSliderLabel(size);
 
+
+  changePizzaSizes(size);
   // Iterates through pizza elements on the page and changes their widths
   function changePizzaSizes(size) {
     var pizzaChange = document.getElementsByClassName("randomPizzaContainer");
@@ -451,8 +448,8 @@ var resizePizzas = function(size) {
 window.performance.mark("mark_start_generating"); // collect timing data
 
 // This for-loop actually creates and appends all of the pizzas when the page loads
-var pizzasDiv = document.getElementById("randomPizzas");
 for (var i = 2; i < 100; i++) {
+  var pizzasDiv = document.getElementById("randomPizzas");
   pizzasDiv.appendChild(pizzaElementGenerator(i));
 }
 
@@ -480,15 +477,16 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 // https://www.igvita.com/slides/2012/devtools-tips-and-tricks/jank-demo.html
 
 // Moves the sliding background pizzas based on scroll position
-var items = document.getElementsByClassName('mover');
-
 function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
-  var scrollPosition = document.body.scrollTop / 1250;
-  for (var i = 0, len = items.length, phase; i < len; i++) {
-    //Replaced with phase line
-    var phase = Math.sin((scrollPosition) + (i % 5));
+
+  var items = document.querySelectorAll('.mover');
+  var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+  for (var i = 0; i < items.length; i++) {
+    // document.body.scrollTop is no longer supported in Chrome.
+    //var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+    var phase = Math.sin((scrollTop / 1250) + (i % 5));
     items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
   }
 
@@ -500,11 +498,12 @@ function updatePositions() {
     var timesToUpdatePosition = window.performance.getEntriesByName("measure_frame_duration");
     logAverageFrame(timesToUpdatePosition);
   }
-};
+}
 
 // runs updatePositions on scroll
 window.addEventListener('scroll', updatePositions);
 
+///////NEW
 document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
@@ -514,7 +513,7 @@ document.addEventListener('DOMContentLoaded', function() {
   var viewportWidth = window.innerWidth;
   //var viewportHeight = window.innerHeight;
   // Also placed the var 'elem' in the loop initialization for efficiency
-  for (var i = 0, elem; i < 90; i++) {
+  for (var i = 0, elem; i < 50; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
     elem.src = "images/pizza.png";
