@@ -45,3 +45,8 @@ Clone the repository and launch an HTTP server. This can be acheived by:
 #### document.addEventListener('DOMContentLoaded', function()
 * var movingPizzas outside for-loop to placed inside  document.getElementById('movingPizzas1') - outside the for-loop
 * var viewportWidth = window.innerWidth - outside the for loop and to calculate the viewer's viewport
+
+#### Result
+Duration : 11.15ms(at 2.01s)
+FPS 89
+CPU TIME 9.05ms
